@@ -189,7 +189,7 @@ public class RecordingTest extends BaseApiTest {
         response.prettyPrint();
 
         Response StopRecordingResponse = stopRecording(room_id);
-        String recording_id=response.getBody().jsonPath().get("id");
+        String recording_id=StopRecordingResponse.getBody().jsonPath().get("id");
         Response recordingCurrentStatus=getRecordingStatus(recording_id);
         Thread.sleep(4000);
         recordingCurrentStatus.prettyPrint();

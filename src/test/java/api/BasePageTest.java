@@ -1,11 +1,10 @@
 package api;
 
-import com100msUI.CreateTemplateDashboard;
+
+import com100msUI.CreateTemplateUsingDashboard;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.util.Objects;
 
@@ -19,15 +18,16 @@ public static WebDriver driver;
          driver.manage().window().maximize();
     }
 
-    public void launchDashboard() throws InterruptedException {
+    public void CreateTemplateAndJoinMeetRoomE2EFlow() throws InterruptedException {
         initializeDriver();
-        CreateTemplateDashboard dashboardPage=new CreateTemplateDashboard(driver);
-        dashboardPage.getDashboard();
-        dashboardPage.clickWithUserAndPassword();
-        dashboardPage.login("kumarpra369@gmail.com","Mahakal@321");
-        dashboardPage.createTemplateForUser();
-        dashboardPage.switchToNewWindows();
-        dashboardPage.enterDetailsAndJoinRoom();
+        CreateTemplateUsingDashboard createTemplateUsingDashboard=new CreateTemplateUsingDashboard(driver);
+        createTemplateUsingDashboard.doLogininGitHub();
+        createTemplateUsingDashboard.login("kumarpra369@gmail.com","Advika@321123");
+        createTemplateUsingDashboard.getDashboard();
+        createTemplateUsingDashboard.clickWithUserAndPassword();
+        createTemplateUsingDashboard.createTemplateForUser();
+        createTemplateUsingDashboard.switchToNewWindows();
+        createTemplateUsingDashboard.enterDetailsAndJoinRoom();
 
     }
     public static void openMeeting(String url){
