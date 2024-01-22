@@ -1,4 +1,4 @@
-package com100ms;
+package com100msApiTest;
 
 import api.BasePageTest;
 import api.BaseApiTest;
