@@ -2,6 +2,7 @@ package com100msUI;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -62,7 +63,7 @@ public class CreateTemplateUsingDashboard extends BasePage {
         loginWithGithublink.click();
     }
 
-    public void login(String email, String password) throws InterruptedException {
+    public void login(String email, String password) {
         usernameGit.sendKeys(email);
         passwordGit.sendKeys(password);
         submitGit.click();
@@ -84,11 +85,10 @@ public class CreateTemplateUsingDashboard extends BasePage {
     }
 
     public void switchToNewWindows() {
-        driver.getWindowHandles();
-        Set<String> window = driver.getWindowHandles();
-        ;
-        Iterator<String> winIT = window.iterator();
-        while (winIT.hasNext()) {
+         driver.getWindowHandles();
+         Set<String> window = driver.getWindowHandles();
+          Iterator<String> winIT = window.iterator();
+          while (winIT.hasNext()) {
             String newWindow = winIT.next();
             driver.switchTo().window(newWindow);
 
@@ -100,10 +100,22 @@ public class CreateTemplateUsingDashboard extends BasePage {
         waitForElementToClickable(findJoineeName);
         findJoineeName.click();
         enterDetails.sendKeys("pramod Kumar");
-
         waitForElementToClickable(joinRoom);
         joinRoom.click();
+        /**
+         * Opening the link in tab.
+         */
+        String url=driver.getCurrentUrl();
+        driver.switchTo().newWindow(WindowType.TAB).navigate().to(url);
+        waitForElementToClickable(findJoineeName);
+        findJoineeName.click();
+        enterDetails.sendKeys("Aman Kumar");
+        waitForElementToActive(joinRoom);
+        joinRoom.click();
+
     }
-}
+
+    }
+
 
 

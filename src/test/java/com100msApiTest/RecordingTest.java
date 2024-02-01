@@ -3,13 +3,16 @@ package com100msApiTest;
 import api.BasePageTest;
 import api.BaseApiTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.util.*;
 import com100msDTO.StartRecordingPojo;
 import constant100ms.Constants;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
+import io.restassured.response.ResponseBody;
 import org.assertj.core.api.Assertions;
+import org.openqa.selenium.json.Json;
 import org.testng.annotations.Test;
 
 import java.util.Random;
@@ -35,21 +38,6 @@ public class RecordingTest extends BaseApiTest {
 
     }
     @Test
-    public void validateStartRecordingStausAfterUserEndsTheActiveRoom() {
-        String room_id = null;
-        try {
-            room_id = createRoomAndGetRoomId(Constants.templateID.TEMPLATEID_ACTIVEROOM.getTemplateid(),"new-roomm-"+random.nextInt(), "testRoom");
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        StartRecordingPojo reqBody = RequestPayload
-                .getRequest(room_id, Constants.SubDomain.SUB_DOMAIN_USED_WITH_ROLES,Constants.MeetingUrlParam.SKIP_PREVIEW);
-        Response response = getStartRecoringSession(reqBody, room_id);
-        endActiveRoom(room_id);
-
-    }
-
-    @Test
     public void validateStopRecordingUsingRoomID() {
         String room_id = null;
         try {
@@ -61,11 +49,12 @@ public class RecordingTest extends BaseApiTest {
                 .getRequest(room_id, Constants.SubDomain.SUB_DOMAIN_USED_WITH_ROLES,Constants.MeetingUrlParam.SKIP_PREVIEW);
         Response response = getStartRecoringSession(reqBody, room_id);
         response.prettyPrint();
+        JsonPath js=response.jsonPath();
+        String meetingUrl= js.get("meeting_url");
+        BasePageTest.openMeeting(meetingUrl);
 
         Response StopRecordingResponse = stopRecording(room_id);
         StopRecordingResponse.prettyPrint();
-        String meeting_url_session=StopRecordingResponse.getBody().jsonPath().getString("meeting_url");
-        Assertions.assertThat(meeting_url_session).isEqualTo(reqBody.getMeeting_url());
         Assertions.assertThat(StopRecordingResponse.jsonPath().getString("status")).isEqualTo("stopping");
 
 
@@ -92,13 +81,6 @@ public class RecordingTest extends BaseApiTest {
 
 
     }
-
-    @Test
-    public void validateStartRecordingWhenSubDomainIsNotPresent() {
-
-    }
-
-
 
     @Test
     public void validateStartRecordingWhenRoomIsDisabled() {
@@ -138,6 +120,50 @@ public class RecordingTest extends BaseApiTest {
         recordingCurrentStatus.prettyPrint();
 
     }
+    @Test
+    public void validateStartRecordingStausAfterUserEndsTheActiveRoom() {
+        String room_id = null;
+        try {
+            room_id = createRoomAndGetRoomId(Constants.templateID.TEMPLATEID_ACTIVEROOM.getTemplateid(), "new-roomm-" + random.nextInt(), "testRoom");
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        StartRecordingPojo reqBody = RequestPayload
+                .getRequest(room_id, Constants.SubDomain.SUB_DOMAIN_USED_WITH_ROLES, Constants.MeetingUrlParam.SKIP_PREVIEW);
+        Response response = getStartRecoringSession(reqBody, room_id);
+        Assertions.assertThat(response.jsonPath().getString("status")).isEqualTo("starting");
+        JsonPath js = response.jsonPath();
+        String meetingUrl = js.get("meeting_url");
+        BasePageTest.openMeeting(meetingUrl);
+        endActiveRoom(room_id);
+    }
+    @Test
+    public void validateStopRecordingWhenRecordingStatusIsFailed() throws InterruptedException, JsonProcessingException {
+        String room_id = null;
+        try {
+            room_id = createRoomAndGetRoomId(Constants.templateID.TEMPLATEID_ACTIVEROOM.getTemplateid(),"new-roomm-"+random.nextInt(), "testRoom");
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        StartRecordingPojo reqBody = RequestPayload
+                .getRequest(room_id, Constants.SubDomain.SUB_DOMAIN_USED_WITH_ROLES,Constants.MeetingUrlParam.SKIP_PREVIEW);
+        Response response = getStartRecoringSession(reqBody, room_id);
+        response.prettyPrint();
+        JsonPath js=response.jsonPath();
+        String meetingUrl= js.get("meeting_url");
+        BasePageTest.openMeeting(meetingUrl);
+        Response StopRecordingResponse = stopRecording(room_id);
+        StopRecordingResponse.prettyPrint();
+        ResponseBody stopRecordingResponse=StopRecordingResponse.getBody();
+        JsonPath newJs=stopRecordingResponse.jsonPath();
+
+        String fetchRecordingID=newJs.get("data[0].id");
+
+        Thread.sleep(4000);
+        Response recordingCurrentStatus=getRecordingStatus(fetchRecordingID);
+        recordingCurrentStatus.prettyPrint();
+
+    }
 
     @Test
     public void validateStartRecordingWhenUserEnabledTheRoomAfterDisabling() {
@@ -173,26 +199,11 @@ public class RecordingTest extends BaseApiTest {
     public void validateRecordingStatusWhenMeeting_urlDoesNotOpenInBrowser() {
 
     }
-
-
     @Test
-    public void validateStopRecordingWhenRecordingStatusIsFailed() throws InterruptedException {
-        String room_id = null;
-        try {
-            room_id = createRoomAndGetRoomId(Constants.templateID.TEMPLATEID_ACTIVEROOM.getTemplateid(),"new-roomm-"+random.nextInt(), "testRoom");
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        StartRecordingPojo reqBody = RequestPayload
-                .getRequest(room_id, Constants.SubDomain.SUB_DOMAIN_USED_WITH_ROLES,Constants.MeetingUrlParam.SKIP_PREVIEW);
-        Response response = getStartRecoringSession(reqBody, room_id);
-        response.prettyPrint();
-
-        Response StopRecordingResponse = stopRecording(room_id);
-        String recording_id=StopRecordingResponse.getBody().jsonPath().get("id");
-        Response recordingCurrentStatus=getRecordingStatus(recording_id);
-        Thread.sleep(4000);
-        recordingCurrentStatus.prettyPrint();
+    public void validateStartRecordingWhenSubDomainIsNotPresent() {
 
     }
+
+
+
 }

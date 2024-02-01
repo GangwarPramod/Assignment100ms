@@ -16,8 +16,6 @@ public class RequestPayload {
                 .setTranscription(setTranscriptionInfo());
         return StartRecordingPojo.StartRecordingBuilder.build();
     }
-
-
     public static ResolutionPojo setRequest() {
         return ResolutionPojo.builder().setHeight(720).setWidth(1280).build();
     }
@@ -38,7 +36,7 @@ public class RequestPayload {
     public static List<SectionsPojo> setSectionInfo() {
         final List<SectionsPojo> sectionsPojos = new ArrayList<>();
         sectionsPojos.add(SectionsPojo.builder().setFormat("Agenda").setTitle("bullets").build());
-        sectionsPojos.add(SectionsPojo.builder().setFormat("Key Points").setTitle("bullets").build());
+        sectionsPojos.add(SectionsPojo.builder().setFormat("aq Points").setTitle("bullets").build());
         sectionsPojos.add(SectionsPojo.builder().setFormat("Action Items").setTitle("bullets").build());
         sectionsPojos.add(SectionsPojo.builder().setFormat("Short Summary").setTitle("paragraph").build());
         return Collections.unmodifiableList(sectionsPojos);

@@ -7,7 +7,7 @@ public class Constants {
     @Getter
     public enum templateID {
 
-        TEMPLATEID_ACTIVEROOM("65a69aeccd666ed1654e1fb0"),
+        TEMPLATEID_ACTIVEROOM("65ad1a4bcd666ed1654e2082"),
         TEMPLATEID_INACTIVEROOM("65aac36470fd941909eb9d0e"),
         INACTIVETEMPLATEID_ROOM("65aacaac70fd941909eb9d0f");
         private String templateid;
@@ -21,7 +21,7 @@ public class Constants {
     @Getter
     public enum SubDomain {
         SUB_DOMAIN_USED_WITH_ACTIVE_ROOM("kumar-videoconf-2034"),
-        SUB_DOMAIN_USED_WITH_ROLES("kumar-videoconf-5518"),
+        SUB_DOMAIN_USED_WITH_ROLES("kumar-videoconf-1850"),
         SUB_DOMAIN_USED_WITH_INACTIVE_ROOM("kumar-videoconf-9563");
 
         private String url;

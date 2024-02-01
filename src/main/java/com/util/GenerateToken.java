@@ -9,8 +9,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class GenerateToken {
 
-    public static void main(String[] args) {
-        generateManagementToken();
+    public static void main(String[] args) {generateManagementToken();
     }
 
     public static String generateManagementToken() {

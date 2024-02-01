@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
+
     <test verbose="2" preserve-order="true" name="/Users/pramodkumar/Desktop/RestAssured/Assignment100ms">
-        <classes><class name="api.CreateRoom">
-            <methods><include name="createRoom"/><include name="getRoomId"/>
-            </methods>
-        </class>
-            <class name="com100msApiTest.RecordingTest"><methods>
-                <include name="validateStartRecordingSuccess"/>
-                <include name="validateStartRecordingWhenMeeting_urlnotPassed"/>
-                <include name="validateStartRecordingWhenCompositeRecordingEnabled"/>
-                <include name="validateStartRecordingWhenSubDomainIsNotPresent"/>
-                <include name="validateStartRecordingStausAfterUserEndsTheActiveRoom"/>
-                <include name="validateStartRecordingWhenRoomIsDisabled"/>
-                <include name="validateStartRecordingWhenTempleteIsDeletedForTheRoom"/>
-                <include name="validateStartRecordingWhenUserEnabledTheRoomAfterDisabling"/>
-                <include name="validateStartRecordingStatusNoRoleIsAppliedonRoomOrTemplate"/>
-                <include name="validateRecordingStatusAfterPeersLefttheSession"/>
-                <include name="validateRecordingStatusIfRoomHasNotRoleConfigured"/>
-                <include name="validateRecordingStatusIfMeetingUrlHasDifferentRoleThenTemplate"/>
-                <include name="validateRecordingStatusIfUserHasExitedFromBrowser"/>
-                <include name="validateRecordingStatusWhenMeeting_urlDoesNotOpenInBrowser"/>
-                <include name="validateStopRecordingUsingRoomID"/>
-                <include name="validateStopRecordingUsingRecordingID"/>
-                <include name="validateStopRecordingWhenRecordingStatusIsFailed"/>
-            </methods>
+
+        <classes>
+            <class name="ui100msTest.Template">
+                <methods>
+                    <include name="createAndvalidatetemplate"/>
+                </methods>
+            </class>
+
+            <class name="api.CreateRoom">
+                <methods>
+                    <include name="createRoom"/>
+                    <include name="getRoomId"/>
+                </methods>
+            </class>
+            <class name="com100msApiTest.RecordingTest">
+                <methods>
+                    <include name="validateStartRecordingSuccess"/>
+                    <include name="validateStartRecordingWhenMeeting_urlnotPassed"/>
+                    <include name="validateStartRecordingWhenCompositeRecordingEnabled"/>
+                    <include name="validateStartRecordingWhenSubDomainIsNotPresent"/>
+                    <include name="validateStartRecordingStausAfterUserEndsTheActiveRoom"/>
+                    <include name="validateStartRecordingWhenRoomIsDisabled"/>
+                    <include name="validateStartRecordingWhenTempleteIsDeletedForTheRoom"/>
+                    <include name="validateStartRecordingWhenUserEnabledTheRoomAfterDisabling"/>
+                    <include name="validateStartRecordingStatusNoRoleIsAppliedonRoomOrTemplate"/>
+                    <include name="validateRecordingStatusAfterPeersLefttheSession"/>
+                    <include name="validateRecordingStatusIfRoomHasNotRoleConfigured"/>
+                    <include name="validateRecordingStatusIfMeetingUrlHasDifferentRoleThenTemplate"/>
+                    <include name="validateRecordingStatusIfUserHasExitedFromBrowser"/>
+                    <include name="validateRecordingStatusWhenMeeting_urlDoesNotOpenInBrowser"/>
+                    <include name="validateStopRecordingUsingRoomID"/>
+                    <include name="validateStopRecordingUsingRecordingID"/>
+                    <include name="validateStopRecordingWhenRecordingStatusIsFailed"/>
+                </methods>
             </class>
 
             <class name="ui100msTest.Template">
-                <methods><include name="createAndvalidatetemplate"/>
+                <methods>
+                    <include name="createAndvalidatetemplate"/>
                 </methods>
             </class>
         </classes>
